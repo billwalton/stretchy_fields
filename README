@@ -1,0 +1,28 @@
+StretchyFields was motivated by one of 37signals' blogs on the Blank Slate 
+problem ( http://37signals.com/designexplore/Highrise_Edit_Contacts ).  In a 
+nutshell, the problem can be pretty simply stated: don't run the user off by 
+making their first impression one that overstates the amount of data they 
+have to enter.
+
+This is a first cut.  It's simple to use but has limitations.  The big 3 are: 
+
+1) All the fields in the form need to be StretchyFields.  This is next on the 
+    list.
+2) Only one group per form is supported.  Multiple groups are next.  Nested 
+     groups will be added as soon as someone says they need them, if not 
+     sooner.
+3) Only <input> tags are supported.  There's definitely a need for <textarea> 
+    and <select> tag support and that will be next after multiple groups unless
+    someone speaks up about wanting the priority changed.
+    
+There's a working index.html file included.  
+
+Two attributes are required to turn an input into a StretchyField.
+1) class="stretchy_input"
+2) default_value = "text you want to show the user in blank slate form"
+
+A third attribute is optional and controls the visual display of the fields.
+3) required="required"
+If this attribute exists, the field looks like a text input.  If not, what's presented
+to the user is pretty clearly _not_ something they're going to be compelled to
+fill in.  Which is the whole point, really.
