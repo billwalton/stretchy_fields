@@ -1,31 +1,22 @@
-/* (c) 2009-2010 Copyright William Joseph Walton, All Rights Reserved  */
-/* This computer code is protected by U.S. and International copyright law. */
-/* Reproduction, transmission or other use of this computer code in violation */
-/* of the applicable End User License Agreement granted to the person who */
-/* rightfully received this copy is strictly prohibited. */
+/* (c) 2012 Copyright William Joseph Walton */
 
-h1 {
-  font-size: 20px;
-  margin-left: 20px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
+/* Forms, inputs
+======================================================================*/
 form {
   margin-left: 20px;
+}
+
+.form_text {
+    margin-top:6px;
 }
 
 .form_actions {
   margin-left: 5px;
 }
 
-/* Forms, inputs
-======================================================================*/
-
 input[type="text"]{
     font-size:14px;
     padding:5px;
-    min-width:250px;
     margin-top:4px;
     margin-left:0px;
     margin-bottom:3px;
@@ -38,7 +29,7 @@ input[type="password"]:focus {
     background:#faffbd;
 }
 
-label, .label{
+label {
     font-weight: bold;
     display:block;
     margin-top:7px;
@@ -54,19 +45,11 @@ label, .label{
     margin-bottom:2px;
 }
 
-.form_text_input label, .form_text_input .label {
+.form_text_input label {
     float: left;
     width: 7em;
     margin-right: 12px;
     text-align: left;
-}
-.form_text {
-    margin-top:6px;
-}
-.form_help {
-    font-size:80%;
-    margin-left:166px;
-    margin-right:24px;
 }
 
 .form_text_input .stretchy_input_field {
@@ -89,61 +72,6 @@ label, .label{
 /* STretchy
 ======================================================================*/
 
-.stretchy_group {
-    float: left;
-	width: 100%;
-}
-
-.stretchy_group .first_name input,
-.stretchy_group .last_name input {
-    width: 100%;
-    margin-top: 3px;
-}
-
-.stretchy_group .street label {
-    text-align: left;
-}
-
-.stretchy_group .city {
-    width:58%;
-}
-
-.stretchy_group .phone label {
-    text-align: left;
-}
-
-.stretchy_group .state {
-    width: 24%;
-}
-
-.stretchy_group .zip {
-    width: 18%;
-}
-
-.stretchy_group .city label {
-    text-align: left;
-}
-.stretchy_group .state label{
-    width:32px;
-    text-align: left;
-}
-.stretchy_group .zip label {
-    width:18px;
-    text-align: left;
-}
-
-.stretchy_group .city input {
-    min-width:200px;
-    margin-top: 3px;
-}
-.stretchy_group .state input{
-    min-width:68px;
-    margin-top: 3px;
-}
-.stretchy_group .zip input {
-    min-width:68px;
-    margin-top: 3px;
-}
 
 .stretchy_box {
     background-color: #E6E7E8;
