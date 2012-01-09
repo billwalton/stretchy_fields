@@ -1,9 +1,5 @@
 var stretchyField = {};
-    
-$(function() {
-    $(document).stretchyFields();
-}); // end of document.ready
-
+ 
 (function( $ ) {
     
     var methods = {
@@ -308,18 +304,16 @@ $(function() {
       var required = $(obj).attr("required") != null;
       var stretchy_div = '<div id="' + obj.id + '_stretchy" class=' + (required ? "stretchy_box" : "stretchy_link") + ' >';
       var link_id = obj.id + '_value';
-      stretchy_div += '<ul><li><a id=' + link_id + ' class="stretchy_input" );></a></li></ul></div>'
+      stretchy_div += '<ul><li><a id=' + link_id + ' class="stretchy_input" ></a></li></ul></div>'
       $('#' + obj.id+ '_input').before(stretchy_div);
       populateLink(link_id, stretchyFieldElement);
     };
-
+    
     var populateLink =  function(element_id, stretchyFieldElement) {
         var link = $('#' + element_id);
 
-        if(link.className != 'stretchy_group_start' && link.className != 'stretchy_group_end'){
-            if(stretchyFieldElement.originalValue == null || stretchyFieldElement.originalValue == "") { link.text(stretchyFieldElement.defaultValue); }
-            else { link.text(stretchyFieldElement.originalValue); }
-        }
+    if(stretchyFieldElement.originalValue == null || stretchyFieldElement.originalValue == "") { link.text(stretchyFieldElement.defaultValue); }
+    else { link.text(stretchyFieldElement.originalValue); }
     };
 
     var initializeStretchyGroups = function(obj) {
