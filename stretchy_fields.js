@@ -5,13 +5,15 @@ var stretchyField = {};
     var methods = {
         init: function ( options ) {
             stretchyField.inputs = initializeStretchyFields(this);
-            stretchyField.groups = initializeStretchyGroups(this);
-            hideOrShowGroupElements(stretchyField.groups);
-            $('a.stretchy_input').on("click", function() { $(this).stretchyFields('swapLinkForInput') } );
-            $('a.stretchy_group').on("click", function() { $(this).stretchyFields('swapLinkForGroup') } );
-            $('input.stretchy_input').on("blur", function() { $(this).stretchyFields('swapInputForLink') } );
-            putFocusInFirstStretchyInput();
-            $(document).keydown( advanceFocusOnTab );
+			if( stretchyField.inputs.length > 0 ) {
+				stretchyField.groups = initializeStretchyGroups(this);
+				hideOrShowGroupElements(stretchyField.groups);
+				$('a.stretchy_input').on("click", function() { $(this).stretchyFields('swapLinkForInput') } );
+				$('a.stretchy_group').on("click", function() { $(this).stretchyFields('swapLinkForGroup') } );
+				$('input.stretchy_input').on("blur", function() { $(this).stretchyFields('swapInputForLink') } );
+				putFocusInFirstStretchyInput();
+				$(document).keydown( advanceFocusOnTab );
+			};
         },
         swapLinkForInput: function() {
             var full_name = $(this).attr('id') ;
@@ -32,17 +34,22 @@ var stretchyField = {};
     
 
     $.fn.stretchyFields = function( method ) {
-        
-        // Method calling logic
-        if ( methods[method] ) {
-          return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
-        } else if ( typeof method === 'object' || ! method ) {
-          return methods.init.apply( this, arguments );
-        } else {
-          $.error( 'Method ' +  method + ' does not exist on jQuery.stretchyFields' );
-        }    
-      
-      };
+        return this.each(function() {
+			var $this = $(this);
+			// Method calling logic
+			if ( methods[method] ) {
+			  return methods[ method ].apply( $this, Array.prototype.slice.call( arguments, 1 ));
+			} 
+			else { 
+				if ( typeof method === 'object' || ! method ) {
+					return methods.init.apply( $this, arguments );
+				} 
+				else {
+				  $.error( 'Method ' +  method + ' does not exist on jQuery.stretchyFields' );
+				} 
+			}
+		});
+	};
       
     var putFocusInFirstStretchyInput = function(){
         var firstInput = stretchyField.inputs[0];
@@ -283,8 +290,8 @@ var stretchyField = {};
                     tabbableElements.push(newElement);
                     wrapStretchyInput(this, newElement);
             });
+			tabbableElements = addSubmitButtonsFor( thisForm, tabbableElements );
         };
-        tabbableElements = addSubmitButtonsFor( thisForm, tabbableElements );
         return tabbableElements;
     };
     
