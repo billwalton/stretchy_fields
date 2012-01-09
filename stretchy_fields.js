@@ -1,19 +1,26 @@
 var stretchyField = {};
- 
+
 (function( $ ) {
-    
+
     var methods = {
         init: function ( options ) {
-            stretchyField.inputs = initializeStretchyFields(this);
-			if( stretchyField.inputs.length > 0 ) {
-				stretchyField.groups = initializeStretchyGroups(this);
-				hideOrShowGroupElements(stretchyField.groups);
-				$('a.stretchy_input').on("click", function() { $(this).stretchyFields('swapLinkForInput') } );
-				$('a.stretchy_group').on("click", function() { $(this).stretchyFields('swapLinkForGroup') } );
-				$('input.stretchy_input').on("blur", function() { $(this).stretchyFields('swapInputForLink') } );
-				putFocusInFirstStretchyInput();
-				$(document).keydown( advanceFocusOnTab );
-			};
+          var forms = $(this).find('form');
+          if(forms.length > 0) {
+            forms.each( function (){
+              $(this).addClass('hidden_element')
+              stretchyField.inputs = initializeStretchyFields(this);
+                if( stretchyField.inputs.length > 0 ) {
+                  stretchyField.groups = initializeStretchyGroups(this);
+                  hideOrShowGroupElements(stretchyField.groups);
+                  $('a.stretchy_input').on("click", function() { $(this).stretchyFields('swapLinkForInput') } );
+                  $('a.stretchy_group').on("click", function() { $(this).stretchyFields('swapLinkForGroup') } );
+                  $('input.stretchy_input').on("blur", function() { $(this).stretchyFields('swapInputForLink') } );
+                };
+              $(this).removeClass('hidden_element');
+              putFocusInFirstStretchyInput();
+              });
+           $(document).keydown( advanceFocusOnTab );
+           };
         },
         swapLinkForInput: function() {
             var full_name = $(this).attr('id') ;
@@ -24,33 +31,33 @@ var stretchyField = {};
             var full_name = $(this).attr('id') ;
             var name = full_name.replace('_value', '');
             swapStretchyLinkForGroup(name, 'first');
-            return true; },            
+            return true; },
         swapInputForLink: function() {
             var full_name = $(this).attr('id') ;
             var name = full_name.replace('_value', '');
             swapTextInputForStretchyControl(name);
             return true; }
     };
-    
+
 
     $.fn.stretchyFields = function( method ) {
         return this.each(function() {
-			var $this = $(this);
-			// Method calling logic
-			if ( methods[method] ) {
-			  return methods[ method ].apply( $this, Array.prototype.slice.call( arguments, 1 ));
-			} 
-			else { 
-				if ( typeof method === 'object' || ! method ) {
-					return methods.init.apply( $this, arguments );
-				} 
-				else {
-				  $.error( 'Method ' +  method + ' does not exist on jQuery.stretchyFields' );
-				} 
-			}
-		});
-	};
-      
+          var $this = $(this);
+          // Method calling logic
+          if ( methods[method] ) {
+            return methods[ method ].apply( $this, Array.prototype.slice.call( arguments, 1 ));
+          }
+          else {
+            if ( typeof method === 'object' || ! method ) {
+                    return methods.init.apply( $this, arguments );
+            }
+            else {
+              $.error( 'Method ' +  method + ' does not exist on jQuery.stretchyFields' );
+            }
+          }
+        });
+     };
+
     var putFocusInFirstStretchyInput = function(){
         var firstInput = stretchyField.inputs[0];
         var group = findGroupContaining( firstInput );
@@ -61,7 +68,7 @@ var stretchyField = {};
             swapStretchyLinkForGroup( group.name, 'first' );
         };
     };
-      
+
     var advanceFocusOnTab = function advanceFocusOnTab( e ) {
         var currentElementIndex = stretchyField.currentElementIndex ;
         var nextElementIndex;
@@ -75,19 +82,19 @@ var stretchyField = {};
             }
             else {
               direction = 'forward';
-              nextElementIndex = ( stretchyField.currentElementIndex   == (stretchyField.inputs.length - 1) ) ? 0 : stretchyField.currentElementIndex + 1 ;                
+              nextElementIndex = ( stretchyField.currentElementIndex   == (stretchyField.inputs.length - 1) ) ? 0 : stretchyField.currentElementIndex + 1 ;
             };
             nextElement = findElementByIndex( nextElementIndex );
             if(stretchyField.inputs[nextElementIndex].className.search(/stretchy/) > -1) {
                 var group = findGroupContaining( nextElement );
                 if( group != null ) {
-                    if( direction == 'forward' ) { 
+                    if( direction == 'forward' ) {
                         if( nextElementIndex == group.firstElementIndex ) {
                             swapStretchyLinkForGroup( group.name, 'first' );
                         }
                         else
                         {
-                            swapStretchyForTextInput(stretchyField.inputs[nextElementIndex].name); 
+                            swapStretchyForTextInput(stretchyField.inputs[nextElementIndex].name);
                         }
                     }
                     else {
@@ -96,17 +103,17 @@ var stretchyField = {};
                         }
                         else
                         {
-                            swapStretchyForTextInput(stretchyField.inputs[nextElementIndex].name); 
-                        }                        
+                            swapStretchyForTextInput(stretchyField.inputs[nextElementIndex].name);
+                        }
                     }
                 }
-               else { 
-                   swapStretchyForTextInput(stretchyField.inputs[nextElementIndex].name); 
+               else {
+                   swapStretchyForTextInput(stretchyField.inputs[nextElementIndex].name);
                 }
             }
-            else { 
+            else {
                 var nonStretchyElement = setCurrentElement( stretchyField.inputs[nextElementIndex].name );
-                $( '#' + nonStretchyElement.name).focus(); 
+                $( '#' + nonStretchyElement.name).focus();
             };
             return false;
         }
@@ -114,24 +121,24 @@ var stretchyField = {};
           return true;
         }
     };
-    
+
     var  setCurrentElement = function( elementName ) {
         var lastElement = findElementByName( stretchyField.currentElementName );
         var lastGroupName = stretchyField.currentGroupName;
         var currentElement = findElementByName( elementName );
-        
+
         stretchyField.currentElementName = currentElement.name;
         stretchyField.currentElementIndex = currentElement.index;
 
         var currentGroup = findGroupContaining( currentElement );
         stretchyField.currentGroupName = (currentGroup == null ? null : currentGroup.name);
-        
+
         if( currentGroup == null && lastGroupName != null ) {
             resetGroup( lastGroupName );
         };
         return currentElement;
     };
-    
+
     var findGroupContaining = function(element){
         var group = null;
         if(stretchyField.groups.length > 0){
@@ -144,7 +151,7 @@ var stretchyField = {};
         };
         return group;
     };
-    
+
     var resetGroup = function(groupName){
         if( elementsAreChanged(groupName) ){
             $('#' + groupName + '_stretchy').css('display','none');
@@ -155,7 +162,7 @@ var stretchyField = {};
             $('#' + groupName + '_stretchy').css('display','block');
         }
     };
-      
+
     var swapStretchyForTextInput = function (elementName) {
         var inputID = '#' + elementName;
         var inputWrapper = inputID + '_input';
@@ -166,9 +173,9 @@ var stretchyField = {};
         $(inputWrapper).css('display', 'block');
         $(inputID).focus();
         $(inputID).select();
-        setCurrentElement(elementName);        
+        setCurrentElement(elementName);
     };
-    
+
     var swapStretchyLinkForGroup = function(groupName, elementPosition) {
         $('#' + groupName + '_stretchy').css('display','none');
         $('#' + groupName).css('display','block');
@@ -176,10 +183,10 @@ var stretchyField = {};
             setFocusToFirstInputInside( groupName );
         }
         else {
-            setFocusToLastInputInside( groupName );            
+            setFocusToLastInputInside( groupName );
         };
     };
-    
+
     var setFocusToFirstInputInside = function(groupName){
         var group = findGroup(groupName);
         var elementIndex = group.firstElementIndex;
@@ -187,7 +194,7 @@ var stretchyField = {};
         swapStretchyForTextInput(element.name);
         return element.name;
     };
-    
+
     var setFocusToLastInputInside = function(groupName){
         var group = findGroup(groupName);
         var elementIndex = group.lastElementIndex;
@@ -206,7 +213,7 @@ var stretchyField = {};
         };
         return group;
     };
-    
+
     var findElementByIndex = function(elementIndex){
         var element;
         for(var e=0; e< stretchyField.inputs.length; e++){
@@ -215,7 +222,7 @@ var stretchyField = {};
                 break;
             };
         };
-        return element;        
+        return element;
     };
 
     var findElementByName = function(elementName){
@@ -226,15 +233,15 @@ var stretchyField = {};
                 break;
             };
         };
-        return element;        
+        return element;
     };
-    
+
     var swapTextInputForStretchyControl = function(elementName) {
         var inputID = '#' + elementName;
         var inputWrapper = inputID + '_input';
         var linkText = inputID + '_value';
         var linkWrapper = inputID + '_stretchy';
-        
+
         var user_input = $(inputID).val();
         var default_value;
         var original_value;
@@ -254,7 +261,7 @@ var stretchyField = {};
         {
             $(linkText).text(user_input);
             $(linkText).css('color', 'black');
-            $(inputID).val(user_input);            
+            $(inputID).val(user_input);
         }
         else
         {
@@ -267,7 +274,7 @@ var stretchyField = {};
                   $(linkText).text(original_value);
                   $(inputID).val(original_value);
                 }
-                $(linkValue).css('color', '#888888');
+                $(linkText).css('color', '#888888');
             }
             else {
                 $(linkText).text(default_value);
@@ -276,25 +283,25 @@ var stretchyField = {};
             }
         }
     };
-    
+
     var initializeStretchyFields = function(obj) {
         var tabbableElements = [];
         tabbableElements.length = 0;
-        
-        var thisForm = obj.find('form');
+
+        var thisForm = $(obj);
         if ( thisForm != null ) {
             var allInputElements = thisForm.find('input.stretchy_input');
             allInputElements.each(function(index){
-                    var newElement = new stretchyElement(index, $(this).attr('id'), "stretchy_input", $(this).attr("default_value"), $(this).val() );
-                    if($(this).val() == null || $(this).val() == ""){$(this).val($(this).attr("default_value"))};             
-                    tabbableElements.push(newElement);
-                    wrapStretchyInput(this, newElement);
+              var newElement = new stretchyElement(index, $(this).attr('id'), "stretchy_input", $(this).attr("default_value"), $(this).val() );
+              if($(this).val() == null || $(this).val() == ""){$(this).val($(this).attr("default_value"))};
+              tabbableElements.push(newElement);
+              wrapStretchyInput(this, newElement);
             });
-			tabbableElements = addSubmitButtonsFor( thisForm, tabbableElements );
+            tabbableElements = addSubmitButtonsFor( thisForm, tabbableElements );
         };
         return tabbableElements;
     };
-    
+
     var addSubmitButtonsFor = function( formObject, elementsArray ){
         var submitElements = formObject.find('input[type="submit"]');
         submitElements.each(function() {
@@ -304,7 +311,7 @@ var stretchyField = {};
         var holding = 0;
         return elementsArray;
         };
-    
+
     var wrapStretchyInput = function(obj, stretchyFieldElement) {
       $(obj).wrap('<div id="' + obj.id + '_input" class="stretchy_input_wrapper"></div>');
       $('#' + obj.id + '_input').wrap('<div class="stretchy_input_field"></div>');
@@ -315,7 +322,7 @@ var stretchyField = {};
       $('#' + obj.id+ '_input').before(stretchy_div);
       populateLink(link_id, stretchyFieldElement);
     };
-    
+
     var populateLink =  function(element_id, stretchyFieldElement) {
         var link = $('#' + element_id);
 
@@ -326,8 +333,8 @@ var stretchyField = {};
     var initializeStretchyGroups = function(obj) {
         var groupElements = [];
         groupElements.length = 0;
-               
-        var allGroups = obj.find('div.stretchy_group');
+
+        var allGroups = $(obj).find('div.stretchy_group');
         allGroups.each(function(index){
             var firstElement = $(this).find('input.stretchy_input').first();
             var lastElement = $(this).find('input.stretchy_input').last();
@@ -335,15 +342,15 @@ var stretchyField = {};
             var lastElementIndex = findIndexOf(lastElement);
             var newGroup = new stretchyGroup($(this).attr('id'), firstElementIndex, lastElementIndex);
             groupElements.push(newGroup);
-            wrapStretchyGroup(this);           
+            wrapStretchyGroup(this);
         });
         return groupElements;
     };
-    
+
     var findIndexOf = function(obj) {
         var elementID = obj.attr('id');
         var index;
-        
+
         for( var i = 0; i < stretchyField.inputs.length; i++) {
             if( stretchyField.inputs[i].name == elementID ) {
                 index = stretchyField.inputs[i].index;
@@ -351,11 +358,11 @@ var stretchyField = {};
         };
         return index;
     };
-    
+
     var wrapStretchyGroup = function(obj) {
        $(obj).before( stretchyGroupLink(obj) );
     };
-    
+
     var hideOrShowGroupElements = function( groups ) {
         if( groups.length > 0 ) {
             for( var g = 0; g < groups.length; g++) {
@@ -363,17 +370,17 @@ var stretchyField = {};
                 var group = '#' + stretchyField.groups[g].name;
                if( elementsAreChanged(stretchyField.groups[g].name) ){
                     $(group_link).addClass('hidden_element');
-                    $(group).removeClass('hidden_element'); 
+                    $(group).removeClass('hidden_element');
                    }
                 else {
                     $(group_link).removeClass('hidden_element');
-                    $(group).addClass('hidden_element'); 
-                    }                
+                    $(group).addClass('hidden_element');
+                    }
                 };
             };
         return true;
     };
-    
+
     var elementsAreChanged = function(groupName) {
         var changed = false;
         var group = findGroup( groupName );
@@ -385,7 +392,7 @@ var stretchyField = {};
         };
         return changed;
     };
-    
+
     var stretchyGroupLink = function(element) {
         var linkHtml;
         linkHtml = '<div id="' + $(element).attr('id') + '_stretchy">';
