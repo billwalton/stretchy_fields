@@ -6,10 +6,6 @@ form {
   margin-left: 20px;
 }
 
-.form_text {
-    margin-top:6px;
-}
-
 .form_actions {
   margin-left: 5px;
 }
@@ -24,45 +20,27 @@ input[type="text"]{
     background:#ffffff;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus {
+input[type="text"]:focus {
     background:#faffbd;
-}
-
-label {
-    font-weight: bold;
-    display:block;
-    margin-top:7px;
-    margin-bottom:2px;
-    color:#3e3e3e;
 }
 
 .form_text_input{
     float: left;
     width: 100%;
-    border-top:1px solid #ddd;
     padding:5px 0 5px 0;
     margin-bottom:2px;
 }
 
 .form_text_input label {
     float: left;
-    width: 7em;
-    margin-right: 12px;
+    width: 9em;
     text-align: left;
-}
-
-.form_text_input .stretchy_input_field {
-    float: left;
-    width: 50%;
-    margin: 0px;
-    height:36px;
-}
-
-.form_text_input .stretchy_input_field a:hover,
-.form_text_input .stretchy_link a:hover {
-  color: #000;
-  background-color: transparent;
+    font-weight: bold;
+    display:block;
+    margin-top:7px;
+    margin-bottom:2px;
+    margin-right: 12px;	
+    color:#3e3e3e;	
 }
 
 .form_text_input div.stretchy_input_wrapper {
@@ -74,7 +52,6 @@ label {
 
 
 .stretchy_box {
-    background-color: #E6E7E8;
     margin-top:4px;
 }
 
@@ -86,6 +63,9 @@ label {
     border: 1px solid #aaaaaa;
     margin-bottom:3px;
     background:#ffffff;
+    display: block;	
+	min-width: 6em;
+	min-height: 26px;	
 }
 
 .stretchy_box li {
@@ -94,7 +74,6 @@ label {
 }
 
 .stretchy_box a {
-    display: block;
     padding-left:12px;
     line-height:26px;
     text-decoration: none;
@@ -102,22 +81,19 @@ label {
     color: #3B8054;
 }
 
- .stretchy_box a:hover {
-    color: #FFF;
-}
-
 .stretchy_link {
-    background-color: #E6E7E8;
     margin-top:4px;
 }
 
 .stretchy_link ul {
     float: left;
+	display: block;
+	min-width: 6em;
     margin: 0;
     padding: 0;
     list-style: none;
     margin-bottom:3px;
-    background:#f0f0f0; /*url("../images/inputBg_disabled.gif") top left no-repeat;*/
+    background-color:#f0f0f0;
     -moz-border-radius:6px;
     -webkit-border-radius:6px;
     border-radius:6px;
@@ -129,12 +105,11 @@ label {
 }
 
 .stretchy_link a {
-    display: block;
     padding-left:12px;
     line-height:26px;
     text-decoration: none;
     margin-right: 15px;
-    color: #888888;
+    color: #3B8054;
 }
 
 .hidden_element {
