@@ -68,6 +68,10 @@ input[type="text"]:focus {
 	min-height: 26px;	
 }
 
+.stretchy_box a:hover {
+    background: #ffffff;
+}
+
 .stretchy_box li {
     float: left;
     padding: 0;
@@ -110,6 +114,10 @@ input[type="text"]:focus {
     text-decoration: none;
     margin-right: 15px;
     color: #3B8054;
+}
+
+.stretchy_link a:hover {
+    background-color: #f0f0f0;
 }
 
 .hidden_element {

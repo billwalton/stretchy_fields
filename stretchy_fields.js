@@ -41,7 +41,7 @@ var stretchyField = {};
             swapTextInputForStretchyControl(name);
             return false; },
         clearDefaults: function() {
-            return true; }
+            return false; }
     };
 
 
@@ -311,8 +311,8 @@ var stretchyField = {};
         if ( thisForm != null ) {
             var allInputElements = thisForm.find('input.stretchy_input');
             allInputElements.each(function(index){
-                var required = ($(this).attr("required") == "required" ? true : false) ;
-                var newElement = new stretchyElement(index, $(this).attr('id'), "stretchy_input", $(this).attr("default_value") , required, $(this).val() );
+		var linkStyle = ( $(this).attr("link_style") && $(this).attr("link_style") == 'stretchy_box' ) ? 'stretchy_box' : 'stretchy_link'
+                var newElement = new stretchyElement(index, $(this).attr('id'), "stretchy_input", $(this).attr("default_value") , linkStyle, $(this).val() );
                 if($(this).val() == null || $(this).val() == ""){$(this).val($(this).attr("default_value"))};
                 tabbableElements.push(newElement);
                 wrapStretchyInput(this, newElement);
@@ -335,8 +335,7 @@ var stretchyField = {};
     var wrapStretchyInput = function(obj, stretchyFieldElement) {
         $(obj).wrap('<div id="' + obj.id + '_input" class="stretchy_input_wrapper"></div>');
         $('#' + obj.id + '_input').wrap('<div class="stretchy_input_field"></div>');
-        var required = $(obj).attr("required") != null;
-        var stretchy_div = '<div id="' + obj.id + '_stretchy" class=' + (required ? "stretchy_box" : "stretchy_link") + ' >';
+        var stretchy_div = '<div id="' + obj.id + '_stretchy" class=' + stretchyFieldElement.linkStyle + ' >';
         var link_id = obj.id + '_value';
         stretchy_div += '<ul><li><a id=' + link_id + ' class="stretchy_input" ></a></li></ul></div>'
         $('#' + obj.id+ '_input').before(stretchy_div);
@@ -474,7 +473,7 @@ var stretchyField = {};
         var group = findGroupByName( groupName );
         var linkStyle = "stretchy_link" ;
         for(var e = group.firstElementIndex; e <= group.lastElementIndex; e++) {
-            if( stretchyField.inputs[e].isRequired == true ){
+            if( stretchyField.inputs[e].linkStyle == 'stretchy_box' ){
                 linkStyle = "stretchy_box" ;
                 break;
             };
@@ -488,12 +487,12 @@ var stretchyField = {};
         this.lastElementIndex = lastElementIndex;
     };
 
-    var stretchyElement = function(index, name, className, defaultValue, isRequired, originalValue) {
+    var stretchyElement = function(index, name, className, defaultValue, linkStyle, originalValue) {
         this.index = index;
         this.name = name;
         this.className = className;
         this.defaultValue = defaultValue;
-        this.isRequired = isRequired; 
+        this.linkStyle = linkStyle; 
         this.originalValue = originalValue;
     };
     
@@ -514,7 +513,7 @@ var stretchyField = {};
         var parentMinWidth;
         var linkText;
         var numberOfCharacters;
-        var characterString = '.';
+        var characterString;
         
         linkText = '#' + stretchyFieldElement.name + '_value';
         inheritedFontSize = $(linkText + ':eq(0)').css('font-size');
@@ -525,7 +524,7 @@ var stretchyField = {};
             characterString += '..';
         };
         if( !stretchyFieldElement.defaultValue ) { 
-            stretchyFieldElement.pseudoDefaultValue =characterString ; 
+            stretchyFieldElement.pseudoDefaultValue = characterString; 
         };			
     };
 })( jQuery );
