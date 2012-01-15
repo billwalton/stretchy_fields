@@ -138,8 +138,15 @@ var stretchyField = {};
         var currentGroup = findGroupContaining( currentElement );
         stretchyField.currentGroupName = (currentGroup == null ? null : currentGroup.name);
 
-        if( currentGroup == null && lastGroupName != null ) {
-            resetGroup( lastGroupName );
+        if( currentGroup == null ) {
+            if( lastGroupName != null ){
+                resetGroup( lastGroupName );
+            };
+        }
+        else {
+            if( currentGroup.name != lastGroupName ){
+                resetGroup( lastGroupName );
+            };
         };
         return currentElement;
     };
@@ -311,7 +318,7 @@ var stretchyField = {};
         if ( thisForm != null ) {
             var allInputElements = thisForm.find('input.stretchy_input');
             allInputElements.each(function(index){
-		var linkStyle = ( $(this).attr("link_style") && $(this).attr("link_style") == 'stretchy_box' ) ? 'stretchy_box' : 'stretchy_link'
+        var linkStyle = ( $(this).attr("link_style") && $(this).attr("link_style") == 'stretchy_box' ) ? 'stretchy_box' : 'stretchy_link'
                 var newElement = new stretchyElement(index, $(this).attr('id'), "stretchy_input", $(this).attr("default_value") , linkStyle, $(this).val() );
                 if($(this).val() == null || $(this).val() == ""){$(this).val($(this).attr("default_value"))};
                 tabbableElements.push(newElement);
@@ -442,23 +449,34 @@ var stretchyField = {};
     var elementsAreChanged = function(groupName) {
         var changed = false;
         var group = findGroupByName( groupName );
-        for( var e = group.firstElementIndex; e <= group.lastElementIndex; e++){
-            var defaultValue = stretchyField.inputs[e].defaultValue ? stretchyField.inputs[e].defaultValue : stretchyField.inputs[e].pseudoDefaultValue ;
-            var userInput = $('#' + stretchyField.inputs[e].name).val() ;
-            if( userInput.length > 0 && defaultValue != $('#' + stretchyField.inputs[e].name).val() ) {
-                changed = true;
-                break;
+        if( group ){
+            for( var e = group.firstElementIndex; e <= group.lastElementIndex; e++){
+                var defaultValue = stretchyField.inputs[e].defaultValue ? stretchyField.inputs[e].defaultValue : stretchyField.inputs[e].pseudoDefaultValue ;
+                var userInput = $('#' + stretchyField.inputs[e].name).val() ;
+                if( userInput.length > 0 && defaultValue != $('#' + stretchyField.inputs[e].name).val() ) {
+                    changed = true;
+                    break;
+                };
             };
         };
         return changed;
     };
 
+    var capitaliseFirstLetter = function(string) {
+        var capitalized = string.charAt(0).toUpperCase() + string.slice(1);
+        return capitalized;
+    };
+
     var stretchyGroupLink = function(element) {
         var linkHtml;
         var groupName = $(element).attr('id');
+        var labelName = groupName.replace('_group', '');
+        
         linkHtml = '<div id="' + groupName + '_stretchy">';
             linkHtml += '<div class="form_text_input" >';
-                linkHtml += '<label for="Address" >Address </label>';
+                linkHtml += '<label for="' + labelName + '" >' ;
+                linkHtml += capitaliseFirstLetter( labelName );
+                linkHtml += '</label>';
                 linkHtml += '<div id="contact_address_link" class="" style="display:block" >';
                     linkHtml += '<ul><li><a id="' + groupName + '_value" class="stretchy_group" >';
                     linkHtml += "Pending";
@@ -513,14 +531,14 @@ var stretchyField = {};
         var parentMinWidth;
         var linkText;
         var numberOfCharacters;
-        var characterString;
+        var characterString = '';
         
         linkText = '#' + stretchyFieldElement.name + '_value';
         inheritedFontSize = $(linkText + ':eq(0)').css('font-size');
         stretchyFieldElement.linkTextColor = $(linkText + ':eq(0)').css('color');
         parentMinWidth = $(linkText).parents('ul').css('min-width');
         numberOfCharacters = parseInt( parentMinWidth ) / parseInt( inheritedFontSize );
-        for( c=1;c<numberOfCharacters; c++){
+        for( var c=1;c<numberOfCharacters; c++){
             characterString += '..';
         };
         if( !stretchyFieldElement.defaultValue ) { 
