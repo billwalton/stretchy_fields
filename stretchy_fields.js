@@ -75,7 +75,6 @@ var stretchyField = {};
     };
 
     var advanceFocusOnTab = function advanceFocusOnTab( e ) {
-        var currentElementIndex = stretchyField.currentElementIndex ;
         var nextElementIndex;
         var nextElement;
         var direction;
@@ -128,7 +127,6 @@ var stretchyField = {};
     };
 
     var  setCurrentElement = function( elementName ) {
-        var lastElement = findElementByName( stretchyField.currentElementName );
         var lastGroupName = stretchyField.currentGroupName;
         var currentElement = findElementByName( elementName );
 
@@ -178,7 +176,6 @@ var stretchyField = {};
     var swapStretchyForTextInput = function (elementName) {
         var inputID = '#' + elementName;
         var inputWrapper = inputID + '_input';
-        var linkText = inputID + '_value';
         var linkWrapper = inputID + '_stretchy';
 
         $(linkWrapper).css('display','none');
@@ -335,7 +332,6 @@ var stretchyField = {};
             var newElement = new stretchyElement(elementsArray.length, $(this).attr('id'), "button", "", "" );
             elementsArray.push(newElement);
         });
-        var holding = 0;
         return elementsArray;
         };
 
@@ -385,7 +381,7 @@ var stretchyField = {};
             var lastElement = $(this).find('input.stretchy_input').last();
             var firstElementIndex = findIndexOf(firstElement);
             var lastElementIndex = findIndexOf(lastElement);
-            var newGroup = new stretchyGroup($(this).attr('id'), firstElementIndex, lastElementIndex);
+            var newGroup = new stretchyGroup($( this).attr('id'), firstElementIndex, lastElementIndex, $(this).attr('label_value'), $(this).attr('default_value') );
             groupElements.push(newGroup);
             wrapStretchyGroup(this);
         });
@@ -406,13 +402,7 @@ var stretchyField = {};
         var group = stretchyField.groups[groupIndex];
         var className = groupLinkStyleFor( group.name );
         $('#' + group.name + '_stretchy').addClass( className );
-        var text = $('#' + group.name).attr( "default_value");
-        if( text ){
-            $('#' + group.name + '_value').text( text );
-        }
-        else {
-            $('#' + group.name + '_value').text( '' );
-        };
+        $('#' + group.name + '_value').text( group.labelValue );
         return true;
     };
         
@@ -499,10 +489,12 @@ var stretchyField = {};
         return linkStyle;
     };
 
-    var stretchyGroup = function(name, firstElementIndex, lastElementIndex) {
+    var stretchyGroup = function(name, firstElementIndex, lastElementIndex, labelValue, defaultValue) {
         this.name = name;
         this.firstElementIndex = firstElementIndex;
         this.lastElementIndex = lastElementIndex;
+        this.labelValue = labelValue ? labelValue : '';
+        this.defaultValue = defaultValue
     };
 
     var stretchyElement = function(index, name, className, defaultValue, linkStyle, originalValue) {
@@ -517,7 +509,7 @@ var stretchyField = {};
     var setPseudoDefaultValues = function( stretchyFieldElements ) {
         var inputs = stretchyFieldElements.inputs;
         var groups = stretchyFieldElements.groups;
-        var holding = 0;
+
         for(var i=0; i<inputs.length; i++){
             setPseudoDefaultValue( inputs[i], 'input' );
         };
