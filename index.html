@@ -8,60 +8,64 @@
     <link rel="stylesheet" type="text/css" href="stretchy_fields.css" />
     <script src="jquery-1.7.1.min.js" type="text/javascript"></script>
     <script src="stretchy_fields.js" type="text/javascript"></script>       
-    <script>
+    <script type="text/javascript">
         $(function() {
             $(document).stretchyFields();
         }); // end of document.ready
     </script>    
    </head>
   <body>
-<form accept-charset="UTF-8" action="/contacts" class="new_contact" id="new_contact" method="post">
-    <div class="form_text_input">
-        <label for="contact_first_name">First name</label>
-        <input autocomplete="off" class="stretchy_input" default_value="Required" id="contact_first_name" link_style="stretchy_box" type="text" />
-    </div>
-    <div class="form_text_input">
-        <label for="contact_middle_name">Middle name</label>
-        <input autocomplete="off" class="stretchy_input" default_value="Optional" id="contact_middle_name" type="text" />
-    </div>
-    <div class="form_text_input">
-        <label for="contact_last_name">Last name</label>
-        <input autocomplete="off" class="stretchy_input" id="contact_last_name" link_style="stretchy_box" type="text" />
-    </div>
-    <div id="address_group" label_value="Address" default_value="to receive junk mail" class="stretchy_group">
-        <div class="form_text_input">
-            <label for="contact_street">Street</label>
-            <input autocomplete="off" class="stretchy_input" id="contact_street" type="text" />
-        </div>
-        <div class="form_text_input">
-            <label for="contact_city">City</label>
-            <input autocomplete="off" class="stretchy_input" id="contact_city" type="text" />
-        </div>
-        <div class="form_text_input">
-            <label for="contact_state">State</label>
-            <input autocomplete="off" class="stretchy_input" id="contact_state"  size="2" maxlength="2" type="text" />
-        </div>
-    </div>
-    <div id="contacts_group" label_value="Contacts" default_value="and other annoyances" class="stretchy_group">
-        <div class="form_text_input">
-            <label for="contact_phone">Phone</label>
-            <input autocomplete="off" class="stretchy_input" id="contact_phone" type="text" />
-        </div>
-        <div class="form_text_input">
-            <label for="contact_cell">Cell</label>
-            <input autocomplete="off" class="stretchy_input" id="contact_cell" type="text" />
-        </div>        
-        <div class="form_text_input">
-            <label for="contact_email">eMail</label>
-            <input autocomplete="off" class="stretchy_input" id="contact_email" type="text" />
-        </div>        
-    </div>
+    <form accept-charset="UTF-8" action="/contacts" class="new_contact" id="new_contact" method="post">
+      <div class="form_text_input">
+          <label for="contact_first_name">First name</label>
+          <input id="contact_first_name" class="stretchy_input" default_value="Required" link_style="stretchy_box" type="text" />
+      </div>
+      <div class="form_text_input">
+          <label for="contact_middle_name">Middle name</label>
+          <input id="contact_middle_name" class="stretchy_input" default_value="Optional" type="text" />
+      </div>
+      <div class="form_text_input">
+          <label for="contact_last_name">Last name</label>
+          <input id="contact_last_name" class="stretchy_input" link_style="stretchy_box" type="text" />
+      </div>
+      <div id="address_group" label_value="Address" default_value="to receive junk mail" class="stretchy_group">
+          <div class="form_text_input">
+              <label for="contact_street">Street</label>
+              <input id="contact_street" class="stretchy_input" type="text" />
+          </div>
+          <div class="form_text_input">
+              <label for="contact_city">City</label>
+              <input id="contact_city" class="stretchy_input" type="text" />
+          </div>
+          <div class="form_text_input">
+              <label for="contact_state">State</label>
+              <input id="contact_state" class="stretchy_input" size="2" maxlength="2" type="text" />
+          </div>
+          <div class="form_text_input">
+              <label for="contact_directions">Directions</label>
+              <textarea id="contact_directions" class="stretchy_input" rows="5" cols="20" ></textarea>
+          </div>
+      </div>
+      <div id="contacts_group" label_value="Contacts" default_value="and other annoyances" class="stretchy_group">
+          <div class="form_text_input">
+              <label for="contact_phone">Phone</label>
+              <input id="contact_phone" class="stretchy_input" type="text" />
+          </div>
+          <div class="form_text_input">
+              <label for="contact_cell">Cell</label>
+              <input id="contact_cell" class="stretchy_input" type="text" />
+          </div>
+          <div class="form_text_input">
+              <label for="contact_email">eMail</label>
+              <input id="contact_email" class="stretchy_input" type="text" />
+          </div>
+      </div>
 
-    <div class="form_actions">
-    <input class="button" id="contact_submit" type="submit" value="Create" />
-    <input class="button cancel_button" id="contact_cancel"  type="submit" value="Cancel" />
-    </div>
-</form>
+      <div class="form_actions">
+        <input class="button" id="contact_submit" type="submit" value="Create" />
+        <input class="button cancel_button" id="contact_cancel"  type="submit" value="Cancel" />
+      </div>
+    </form>
   </body>
 </html>
 
