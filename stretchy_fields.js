@@ -317,14 +317,32 @@ var stretchyField = {};
           var input_selector = '#' + thisForm.attr('id') + " :input";
           var allInputElements = $(input_selector);
           allInputElements.each(function(index){
+            if(isTabbable( $(this) ) ){
               var linkStyle = ( $(this).attr("link_style") && $(this).attr("link_style") == 'stretchy_box' ) ? 'stretchy_box' : 'stretchy_link'
               var newElement = new stretchyElement(index, $(this).attr('id'), "stretchy_input", $(this).attr("default_value") , linkStyle, $(this).val() );
               if($(this).val() == null || $(this).val() == ""){$(this).val($(this).attr("default_value"))};
               tabbableElements.push(newElement);
-              wrapStretchyInput(this, newElement);
+              if( isWrappable( $(this) ) ){
+                wrapStretchyInput(this, newElement);
+              };
+            };
           });
         };
         return tabbableElements;
+    };
+    
+    var isTabbable = function(obj){
+      var nonTabbableTypes = ["hidden"];
+      var thisElementType = obj.attr("type");
+      var holding;
+      return true;
+    };
+
+    var isWrappable = function(obj){
+      var wrappableTagTypes = ["input", "textarea"];
+      var wrappableInputTypes = ["text"];
+      var holding;
+      return true;
     };
 
     var wrapStretchyInput = function(obj, stretchyFieldElement) {
